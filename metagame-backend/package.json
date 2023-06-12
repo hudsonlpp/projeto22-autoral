@@ -43,6 +43,7 @@
     "@types/jest": "^26.0.23",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^17.0.45",
+    "@types/node-cron": "^3.0.7",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",
@@ -83,6 +84,8 @@
     "http-status": "^1.5.2",
     "joi": "^17.9.2",
     "jsonwebtoken": "^8.5.1",
+    "node-cron": "^3.0.2",
+    "protoz": "^0.0.7",
     "redis": "^4.6.6",
     "reflect-metadata": "^0.1.13"
   }

@@ -4,12 +4,13 @@ import jwt from 'jsonwebtoken';
 import { invalidCredentialsError } from 'errors/invalid-credentials-error';
 import { exclude } from '../utils/prisma-utils'
 import signUpRepository from 'repositories/sign-up-repository';
-import signInRepository from 'repositories/sign-in-repository';
 
 async function signIn(params: SignInParams): Promise<SignInResult> {
   const { email, password } = params;
 
   const user = await getUserOrFail(email);
+
+  console.log(user)
 
   await validatePasswordOrFail(password, user.password);
 
@@ -29,12 +30,7 @@ async function getUserOrFail(email: string): Promise<GetUserOrFailResult> {
 }
 
 async function createSession(userId: number) {
-  const token = jwt.sign({ userId }, process.env.JWT_SECRET);
-  await signInRepository.create({
-    token,
-    userId,
-  });
-
+  const token = jwt.sign({ userId }, process.env.JWT_SECRET, {expiresIn:"6h"});
   return token;
 }
 

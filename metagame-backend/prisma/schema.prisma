@@ -1,3 +1,5 @@
+// file: schema.prisma
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,14 +15,11 @@ model User {
   password   String      @db.VarChar(255)
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
-  Session    Session[]
 }
 
-model Session {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  token     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Blacklist {
+  id          Int         @id @default(autoincrement())
+  token       String      @unique
+  expiration  DateTime
+  reason      String?
 }

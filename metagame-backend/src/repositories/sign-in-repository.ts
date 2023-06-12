@@ -1,14 +1,18 @@
-import { Prisma } from '@prisma/client';
+// import { Prisma } from '@prisma/client';
 import { prisma } from '../config/database';
 
-async function create(data: Prisma.SessionUncheckedCreateInput) {
-  return prisma.session.create({
-    data,
+async function checkIfBlacklisted(token: string):Promise<number> {
+  const count = await prisma.blacklist.count({
+    where: {
+      token: token,
+    },
   });
+  return count;
 }
 
+
 const signInRepository = {
-  create,
+  checkIfBlacklisted,
 };
 
 export default signInRepository;

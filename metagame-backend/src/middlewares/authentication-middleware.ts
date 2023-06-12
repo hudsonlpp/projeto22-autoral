@@ -4,6 +4,7 @@ import * as jwt from 'jsonwebtoken';
 
 import { unauthorizedError } from 'errors/unauthorized-error';
 import { prisma } from '../config/database';
+import signInRepository from 'repositories/sign-in-repository';
 
 export async function authenticateToken(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const authHeader = req.header('Authorization');
@@ -14,15 +15,11 @@ export async function authenticateToken(req: AuthenticatedRequest, res: Response
 
   try {
     const { userId } = jwt.verify(token, process.env.JWT_SECRET) as JWTPayload;
-
-    const session = await prisma.session.findFirst({
-      where: {
-        token,
-      },
-    });
-    if (!session) return generateUnauthorizedResponse(res);
-
+    res.locals.token = token;
     req.userId = userId;
+
+    const billgates = await signInRepository.checkIfBlacklisted(token)
+    if (billgates !== 0) return generateUnauthorizedResponse(res);
 
     return next();
   } catch (err) {

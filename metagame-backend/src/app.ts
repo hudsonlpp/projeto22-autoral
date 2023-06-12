@@ -4,20 +4,18 @@ import express, { Express } from "express";
 import cors from "cors";
 import { loadEnv } from "config/envs";
 import { connectDb, disconnectDB } from "config/database";
+import './utils/cronjob';
 
 loadEnv();
 
 import { handleApplicationErrors } from "middlewares/error-handling-middleware";
-import { signUpRouter } from "routers/sign-up-routes";
-import { signInRouter } from "routers/sign-in-routes";
+import router from "./routers/index.routers"
 
 const app = express();
 app
   .use(cors())
   .use(express.json())
-  .get("/health", (_req, res) => res.send("OK!"))
-  .use("/sign-up", signUpRouter)
-  .use("/sign-in", signInRouter)
+  .use(router)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
