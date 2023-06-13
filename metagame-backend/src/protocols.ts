@@ -1,3 +1,4 @@
+import {Request} from 'express'
 
 export type ApplicationError = {
     name: string;
@@ -13,4 +14,4 @@ export type ApplicationError = {
     message: string;
   };
   
-  
+  export type AuthenticatedRequest = Request &  {userId: number} 

@@ -10,16 +10,64 @@ datasource db {
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  email      String      @unique @db.VarChar(255)
-  password   String      @db.VarChar(255)
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  id           Int        @id @default(autoincrement())
+  email        String     @unique @db.VarChar(255)
+  password     String     @db.VarChar(255)
+  profileImage String?
+  coins        Int?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  rankings     Ranking[]
+  posts        Post[]
+  bets         Bet[]
+  likes        Like[]
+  followers    Follower[] @relation("FollowerUser")
+  followed     Follower[] @relation("FollowedUser")
 }
 
 model Blacklist {
-  id          Int         @id @default(autoincrement())
-  token       String      @unique
-  expiration  DateTime
-  reason      String?
+  id         Int      @id @default(autoincrement())
+  token      String   @unique
+  expiration DateTime
+  reason     String?
+}
+
+model Post {
+  id            Int       @id @default(autoincrement())
+  user_id       Int
+  post_content  String?
+  post_datetime DateTime? @default(now())
+  user          User      @relation(fields: [user_id], references: [id])
+  Like          Like[]
+}
+
+model Bet {
+  id         Int     @id @default(autoincrement())
+  user_id    Int
+  bet_result String?
+  bet_amount Int?
+  user       User    @relation(fields: [user_id], references: [id])
+}
+
+model Like {
+  id      Int  @id @default(autoincrement())
+  user_id Int
+  post_id Int
+  user    User @relation(fields: [user_id], references: [id])
+  post    Post @relation(fields: [post_id], references: [id])
+}
+
+model Follower {
+  id          Int  @id @default(autoincrement())
+  follower_id Int
+  followed_id Int
+  follower    User @relation("FollowerUser", fields: [follower_id], references: [id])
+  followed    User @relation("FollowedUser", fields: [followed_id], references: [id])
+}
+
+model Ranking {
+  id      Int  @id @default(autoincrement())
+  user_id Int
+  score   Int?
+  user    User @relation(fields: [user_id], references: [id])
 }
