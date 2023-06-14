@@ -14,9 +14,9 @@ const post = Router();
 
 post.post("/posts", authenticateToken, postController.createPost)
 post.get("/posts/:id", authenticateToken, postController.getPostById);
-post.put("/posts/:postId", authenticateToken, postController.updatePost)
-post.delete("/posts/:postId", authenticateToken, postController.deletePost)
-post.get("/users/:id/posts:", authenticateToken, postController.getPostsByUserId);
+post.put("/posts/:id", authenticateToken, postController.updatePost)
+post.delete("/posts/:id", authenticateToken, postController.deletePost)
+post.get("/users/:userId/posts", authenticateToken, postController.getPostsByUserId);
 
 
 export default post;

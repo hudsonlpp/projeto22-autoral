@@ -70,8 +70,8 @@ async function deletePost(req: Request, res: Response) {
 
 async function getPostsByUserId(req: Request, res: Response) {
   try {
-    const { id } = req.params;
-    const posts: Post[] = await postService.getPostsByUserId(parseInt(id));
+    const { userId } = req.params;
+    const posts: Post[] = await postService.getPostsByUserId(parseInt(userId));
 
     res.json(posts);
   } catch (error) {
