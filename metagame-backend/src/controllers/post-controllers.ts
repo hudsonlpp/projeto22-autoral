@@ -62,9 +62,9 @@ async function deletePost(req: Request, res: Response) {
 
     await postService.deletePost(parseInt(id));
 
-    res.sendStatus(204);
+    res.sendStatus(httpStatus.NO_CONTENT);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(httpStatus.BAD_REQUEST).json({ error: error.message });
   }
 }
 
@@ -75,7 +75,7 @@ async function getPostsByUserId(req: Request, res: Response) {
 
     res.json(posts);
   } catch (error) {
-    res.status(404).json({ error: error.message });
+    res.status(httpStatus.NOT_FOUND).json({ error: error.message });
   }
 }
 // async function getPostsById(req, res) {
