@@ -29,10 +29,18 @@ async function deleteBet(id: number): Promise<Bet | null> {
   return bet;
 }
 
+async function getUserBets(userId: number): Promise<Bet[]> {
+  console.log("Fetching user bets...");
+  const bets = await betRepository.getUserBets(userId);
+  console.log("User bets fetched!");
+  return bets;
+}
+
 const betService = {
     createBet,
     getBetById,
     updateBet,
-    deleteBet
+    deleteBet,
+    getUserBets
 }
 export default betService;

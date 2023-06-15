@@ -3,6 +3,7 @@ import auth from "./auth.routers";
 import post from "./post.routers";
 import like from "./like.routers";
 import bets from "./bet.router";
+import follower from "./follower.routers";
 
 const router = Router();
 
@@ -10,6 +11,7 @@ router.use(auth);
 router.use(post);
 router.use(like);
 router.use(bets);
+router.use(follower);
 router.get("/health", (_req, res) => res.send("OK!"))
 router.all("*", (_req, res) => res.status(404).send({ message: "Not Found" }));
 

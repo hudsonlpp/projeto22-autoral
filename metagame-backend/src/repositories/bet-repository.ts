@@ -48,13 +48,29 @@ async function deleteBet(id: number): Promise<Bet | null> {
     console.error("Error deleting bet:", error);
     throw new Error("Failed to delete bet.");
   }
-}  
+}
+
+async function getUserBets(userId: number): Promise<Bet[]> {
+  try {
+    console.log("Fetching bets for user with ID:", userId);
+    const bets = await prisma.bet.findMany({
+      where: { user_id: userId },
+      include: { user: true },
+    });
+    console.log("Bets retrieved successfully:", bets);
+    return bets;
+  } catch (error) {
+    console.error("Error fetching bets:", error);
+    throw new Error("Failed to fetch bets.");
+  }
+}
 
 const betRepository = { 
     createBet,
     getBetById,
     updateBet,
-    deleteBet
+    deleteBet,
+    getUserBets
  }
 
 export default betRepository;
